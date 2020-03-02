@@ -136,7 +136,12 @@ class Index extends Action
             return $this->_redirect($this->getUrl('sales/order/view/order_id/' . $post['id']));
             exit;
         }
-
+        if (!isset($results['shipping']))
+        {
+            $this->messages->addErrorMessage('An unknown error occurred. Please check Aymakan log file for errors.');
+            return $this->_redirect($this->getUrl('sales/order/view/order_id/' . $post['id']));
+            exit;
+        }
         $aymakanShipment = $results['shipping'];
 
         $trackingNumber = $aymakanShipment['tracking_number'];

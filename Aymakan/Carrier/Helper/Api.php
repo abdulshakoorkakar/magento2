@@ -113,7 +113,20 @@ class Api extends AbstractHelper
         if (isset($result) and isset($result['errors']))
             return $result;
 
+        if(!isset($result['data']))
+        {
+            $this->log($result);
+            return $result;
+        }
         return $result['data'];
+    }
+
+    protected function log($data)
+    {
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/aymakan.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        $logger->err('Error: '.json_encode($data));
     }
 
     /** Check if the module is enabled or not.
