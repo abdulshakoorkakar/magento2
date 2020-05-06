@@ -21,6 +21,8 @@ to see Aymakan Carrier. Click on Aymakan Carrier tab to open its configurations 
 
 There are some key configurations to note down.
 
+- `Display Cities in Arabic`: If you want to display Aymakan cities in Arabic, then select YES. Please note that this setting will only display 
+cities in Arabic while creating a shipment in Magento order view. Aymakan may still display the city name in English in AWB. 
 - `Testing`: If you are testing the module, select `Yes`. Once the integration is tested, and ready to move to production
 disable `Testing`, and set it to No.
 - `API Key`:  API Key is used for authenticating with Aymakan Api. The API key can be found in your Aymakan account.
