@@ -126,6 +126,8 @@ class Aymakan extends Generic
                 'value' => $this->getAddress()->getCountryId(),
             ]
         );
+        $address = $this->getAddress();
+
         $fieldset->addField(
             'delivery_name',
             'text',
@@ -135,7 +137,7 @@ class Aymakan extends Generic
                 'title' => __('Name'),
                 'required' => true,
                 'name' => 'delivery_name',
-                'value' => $this->getAddress()->getFirstname(),
+                'value' => $address->getFirstname().' '.$address->getLastname(),
             ]
         );
         $fieldset->addField(
@@ -235,9 +237,38 @@ class Aymakan extends Generic
                 'title' => __('Order Total'),
                 'required' => true,
                 'name' => 'declared_value',
-                'value' => round($this->order->getGrandTotal())
+                'value' => $this->order->getGrandTotal()
             ]
         );
+
+        $fieldset->addField(
+            'is_cod validate',
+            'select',
+            [
+                'class' => 'edited-data',
+                'label' => __('Is COD?'),
+                'title' => __('Is COD?'),
+                'required' => false,
+                'name' => 'is_cod',
+                'values' => ['0' => 'No', '1' => 'Yes'],
+                'note' => 'If order is COD, then select Yes.'
+            ]
+        );
+
+        $fieldset->addField(
+            'cod_amount validate',
+            'text',
+            [
+                'class' => 'edited-data',
+                'label' => __('COD Amount'),
+                'title' => __('COD Amount'),
+                'required' => false,
+                'name' => 'cod_amount',
+                'value' => $this->order->getGrandTotal(),
+                'note' => 'If order is COD, then COD amount is the amount Aymakan driver will be collecting from your customer.'
+            ]
+        );
+
         $fieldset->addField(
             'deliver_items validate',
             'text',
@@ -247,6 +278,7 @@ class Aymakan extends Generic
                 'title' => __('Items'),
                 'required' => true,
                 'name' => 'items',
+                'value' => $this->getItemsCount(),
                 'note' => 'Number of items in the shipment.'
             ]
         );
@@ -259,7 +291,7 @@ class Aymakan extends Generic
                 'title' => __('Pieces'),
                 'required' => true,
                 'name' => 'pieces',
-                'note' => 'Pieces in the shipment. For example, for a large orders, the items can be boxed in multiple cottons. The number of boxed cottons should be entered here. ',
+                'note' => 'Pieces in the shipment. For example, for a large orders, the items can be boxed in multiple cartons. The number of boxed cartons should be entered here. ',
             ]
         );
 
@@ -291,12 +323,22 @@ class Aymakan extends Generic
         return (!isset($billingAddress)) ? $this->order->getShippingAddress() : $billingAddress;
     }
 
+    public function getItemsCount()
+    {
+        return (int) $this->order->getTotalQtyOrdered();
+    }
+
     /**
      * @return array
      */
     public function getCities()
     {
         $key = 'aymakan_cities';
+        if ($this->scopeConfig->getValue('carriers/aymakan_carrier/city_ar'))
+            $citiesKey = 'city_ar';
+        else
+            $citiesKey = 'city_en';
+
         $fromCache = $this->cache->load($key);
         if (!$fromCache)
         {
@@ -305,7 +347,7 @@ class Aymakan extends Generic
 
             if (count($cities) > 0) {
                 foreach ($cities as $city) {
-                    $options[$city['city_en']] = addslashes($city['city_en']);
+                    $options[$city['city_en']] = addslashes($city[$citiesKey]);
                 }
             }
             $this->cache->save(json_encode($options), $key);
