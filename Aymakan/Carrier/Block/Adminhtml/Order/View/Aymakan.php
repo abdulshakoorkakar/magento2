@@ -319,8 +319,8 @@ class Aymakan extends Generic
      */
     public function getAddress()
     {
-        $billingAddress = $this->order->getBillingAddress();
-        return (!isset($billingAddress)) ? $this->order->getShippingAddress() : $billingAddress;
+        $shippingAddress = $this->order->getShippingAddress();
+        return (!isset($shippingAddress)) ? $this->order->getBillingAddress() : $shippingAddress;
     }
 
     public function getItemsCount()
