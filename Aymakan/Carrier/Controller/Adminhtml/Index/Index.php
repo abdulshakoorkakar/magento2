@@ -124,7 +124,7 @@ class Index extends Action
         $post['submission_date'] = date('Y-m-d H:i:s');
         $post['pickup_date'] = date('Y-m-d H:i:s');
         $post['delivery_date'] = date('Y-m-d H:i:s');
-        $post['reference'] = $this->order->getId();
+        $post['reference'] = $this->order->getIncrementId();
         $results = $this->api->createShipment($post);
         if (isset($results['errors'])) {
             $messages = 'You have errors: ';
