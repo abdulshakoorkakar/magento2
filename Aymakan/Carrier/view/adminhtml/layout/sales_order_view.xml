@@ -5,7 +5,7 @@
   </head>
     <body>
       <referenceContainer name="content">
-          <block class="Aymakan\Carrier\Block\Adminhtml\Order\View\Aymakan" name="aymakan_shipping_modal" template="Aymakan_Carrier::order/view/slideout/form.phtml" action="aymakan" ifconfig="carriers/aymakan_carrier/active"/>
+          <block class="Aymakan\Carrier\Block\Adminhtml\Order\View\Aymakan" name="aymakan_shipping_modal" template="Aymakan_Carrier::order/view/slideout/form.phtml" ifconfig="carriers/aymakan_carrier/active"/>
       </referenceContainer>
       <referenceContainer name="before.body.end">
         <block class="Magento\Backend\Block\Template" template="Aymakan_Carrier::order/view/slideout/init.phtml"/>
