@@ -161,7 +161,7 @@ class Index extends Action
         $shipment->getOrder()->setIsInProcess(true);
 
         try {
-            $url = '<a targe="_blank" href="' . $labelUrl . '" target="_blank">Print Shipping Label</a>';
+            $url = '<a target="_blank" href="' . $labelUrl . '" target="_blank">Print Shipping Label</a>';
 
             $shipment->addComment('Shipment Tracking Number: ' . $trackingNumber . ' URL: ' . $url . ' &nbsp; &nbsp; BY: ' . $post['requested_by'], false, false);
             $shipment->save();
