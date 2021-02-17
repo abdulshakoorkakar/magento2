@@ -165,13 +165,14 @@ class Aymakan extends Generic
             ]
         );
         $fieldset->addField(
-            'delivery_region',
+            'delivery_neighbourhood',
             'text',
             [
                 'class' => 'edited-data',
                 'label' => __('Region'),
                 'title' => __('Region'),
-                'name' => 'delivery_region',
+                'required' => true,
+                'name' => 'delivery_neighbourhood',
                 'value' => $this->getAddress()->getRegion(),
             ]
         );
